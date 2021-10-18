@@ -1,8 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Scanner;
+import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -24,7 +20,7 @@ public class Mail {
         while (scanner.hasNextLine()) {
             Scanner s2 = new Scanner(scanner.nextLine());
             while (s2.hasNext()) {
-                String word = s2.next();
+                String word = s2.next().toLowerCase(Locale.ROOT);
                 buf.add(word);
                 System.out.println(word);
             }

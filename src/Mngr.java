@@ -5,14 +5,15 @@ import java.util.List;
 
 public class Mngr {
     private HashMap<String, Integer> hamWords = new HashMap<>();
-    private HashMap<String, Double> onlyHamWords = new HashMap<>();
     private HashMap<String, Integer> spamWords = new HashMap<>();
     private HashMap<String, Double> onlySpamWords = new HashMap<>();
     private List<Mail> hamMails = new ArrayList<>();
     private List<Mail> spamMails = new ArrayList<>();
-    private int amountOfHamMails;
-    private int amountOfSpamMails;
-    private Double alpha = 0.1;
+
+    private double alpha = 0.000001;
+
+    private double genSpamProb = 0.5;
+    private double genHamProb = 1 - genSpamProb;
 
     private File hamDir;
     private File spamDir;
@@ -59,30 +60,16 @@ public class Mngr {
 
     }
 
-    public void fillOnlySpamWords() {
-        for (HashMap.Entry<String, Integer> entry : spamWords.entrySet()) {
-            if (!(hamWords.containsKey(entry.getKey())));{
-                onlySpamWords.put(entry.getKey(),alpha);
+    public double spamProbability(){
+        List<String> wordsInMail = toCompare.getBuf();
+        for (int i = 0; i< wordsInMail.size(); i++){
+            Word w = getExistingWord(wordsInMail.get(i));
+            if (!(w == null)){
+                as = as*w.getSpamProb();
+                ah = ah*w.getHamProb();
             }
         }
-    }
-    public void fillOnlyHamWords() {
-        for (HashMap.Entry<String, Integer> entry : hamWords.entrySet()) {
-            if (!(spamWords.containsKey(entry.getKey())));{
-                onlyHamWords.put(entry.getKey(), alpha);
-            }
-        }
-    }
-    public double spamProbability(Mail mail){
-        List<String> words = mail.getBuf();
-        double spamProb = 0.5;
-
-        for (int i = 0; i< words.size(); i++){
-
-        }
-
-
-        return 0.1;
+        return as/(as+ah);
     }
 
 
